@@ -22,7 +22,7 @@ router.post('/initUser', async (req, res) => {
       firstName: firstName,
       lastName: lastName,
       email: email,
-      totalDebt: totalDebt,
+      debt: totalDebt,
       income: income,
       location: location
     });
