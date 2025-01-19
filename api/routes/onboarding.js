@@ -9,10 +9,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/initUser', async (req, res) => {
-  const { firstName, lastName, email, income, totalDebt, location } = req.query;
-
-  console.log(firstName);
-  
+  const { firstName, lastName, email, income, totalDebt, location } = req.body;
   try {
     const existingUser = await UserModel.findOne({ email }); // Check if a user with the given email already exists.
     if (existingUser) {
@@ -21,7 +18,7 @@ router.post('/initUser', async (req, res) => {
       .json({ error: 'User with this email already exists' }); // Return a conflict error if the email is already in use.
     }
     
-    await UserModel.create({
+    const newUser = await UserModel.create({
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -29,7 +26,7 @@ router.post('/initUser', async (req, res) => {
       income: income,
       location: location
     });
-    return res.status(201).json({ message: 'User registered successfully' });
+    return res.status(201).json({ message: 'User registered successfully', data: newUser });
   }
   catch (error) {
     console.error('Registration error:', error); // Log any errors.
@@ -38,8 +35,9 @@ router.post('/initUser', async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { email } = req.query;
+  const { email } = req.body;
   try {
+    console.log('Email:', email);
     const userDoc = await UserModel.findOne({ email});
     if (!userDoc) {
       return res.status(404).json({ error: 'User not found' });
