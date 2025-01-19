@@ -26,12 +26,14 @@ mongoose
   .catch((err) => console.log('Error connecting to MongoDB', err));
 
 // Routes
+const onboardingRoutes = require("./routes/onboarding");
 // const authRoutes = require('./routes/auth');
 // const emailRoutes = require('./routes/email');
 // const classRoutes = require('./routes/classes');
 // const userRoutes = require('./routes/users');
 
 // The routes are mounted on the /auth, /email, /classes, and /users paths.
+app.use("/onboarding", onboardingRoutes)
 // app.use(`/auth`, authRoutes);
 // app.use(`/email`, emailRoutes);
 // app.use(`/classes`, classRoutes);
